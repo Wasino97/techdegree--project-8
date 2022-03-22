@@ -3,7 +3,7 @@ urlAPI =`https://randomuser.me/api/?results=12&inc=name, picture,
 email, location, phone, dob &noinfo &nat=US`
 const gridContainer = document.querySelector('.grid-container');
 const overlay = document.querySelector('.overlay');
-const modalContainer = document.querySelector('.modal-text');
+const modalContainer = document.querySelector('.modal-container');
 const modalClose = document.querySelector('.modal-close');
 
 fetch(urlAPI)
@@ -41,7 +41,7 @@ function displayEmployees(employeeData) {
 function displayModal(index) {
     
     let { name, dob, phone, email, location: { city, street, state, postcode }, picture } = employees[index];
-
+    console.log(street);
     let date = new Date(dob.date);
 
     const modalHTML = `
@@ -52,20 +52,18 @@ function displayModal(index) {
             <p class="address">${city}</p>
             <hr />
             <p>${phone}</p>
-            <p class="address">${street}, ${state} ${postcode}</p>
-            <p>Birthday:
- ${date.getMonth()}/${date.getDate()}/${date.getFullYear()}</p>
+            <p class="address">${street.number}, ${street.name}, ${state} ${postcode}</p>
+            <p>Birthday: ${date.getMonth()}/${date.getDate()}/${date.getFullYear()}</p>
         </div>
     `;
 
     overlay.classList.remove("hidden");
     modalContainer.innerHTML = modalHTML;
-}
+};
 
 gridContainer.addEventListener('click', e => {
    
     if (e.target !== gridContainer) {
-
         const card = e.target.closest(".card");
         const index = card.getAttribute('data-index');
         
